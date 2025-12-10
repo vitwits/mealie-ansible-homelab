@@ -8,6 +8,9 @@ __pycache__/
 *.log
 *.out
 
+# Secret Master Node Token generated automatically
+node_token.txt
+
 # Ansible Vault files
 *.vault
 

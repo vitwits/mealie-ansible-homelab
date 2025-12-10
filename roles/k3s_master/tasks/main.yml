@@ -1,0 +1,49 @@
+- name: Install K3s server
+  shell: curl -sfL https://get.k3s.io | sh -
+  args:
+    creates: /usr/local/bin/k3s
+  become: yes
+
+- name: Get node token for workers
+  command: cat /var/lib/rancher/k3s/server/node-token
+  register: node_token
+  become: yes
+
+- name: Save node token locally for Ansible
+  copy:
+    content: "{{ node_token.stdout }}"
+    dest: "./node_token.txt"
+    mode: '0600'
+  delegate_to: localhost
+  run_once: true
+  become: no
+
+- name: Create .kube directory for ansible user
+  file:
+    path: /home/ansible/.kube
+    state: directory
+    owner: ansible
+    group: ansible
+    mode: '0700'
+  become: yes
+
+- name: Copy kubeconfig for ansible user
+  copy:
+    src: /etc/rancher/k3s/k3s.yaml
+    dest: /home/ansible/.kube/config
+    remote_src: yes
+    owner: ansible
+    group: ansible
+    mode: '0600'
+  become: yes
+
+- name: Add aliases k and kubectl that use user's kubeconfig
+  lineinfile:
+    path: /home/ansible/.bashrc
+    line: "{{ item }}"
+    create: yes
+  become: yes
+  loop:
+    - alias k='kubectl'
+    - alias kubectl='kubectl'
+    - export KUBECONFIG=/home/ansible/.kube/config
