@@ -1,0 +1,25 @@
+- name: Install NFS server packages
+  apt:
+    name: nfs-kernel-server
+    state: present
+    update_cache: yes
+
+- name: Create NFS export directory
+  file:
+    path: "{{ nfs_base_path }}"
+    state: directory
+    owner: root
+    group: root
+    mode: '0777'
+
+- name: Configure /etc/exports
+  copy:
+    dest: /etc/exports
+    content: "{{ nfs_base_path }} {{ nfs_network }}(rw,sync,no_subtree_check,no_root_squash)"
+    mode: '0644'
+
+- name: Restart NFS server
+  service:
+    name: nfs-kernel-server
+    state: restarted
+    enabled: yes

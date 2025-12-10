@@ -1,0 +1,23 @@
+all:
+  hosts:
+    k3s_master:
+      ansible_host: 192.168.1.110
+      ansible_user: ansible
+      ansible_ssh_private_key_file: ~/.ssh/id_ed25519
+    elk-vm:
+      ansible_host: 192.168.1.111
+      ansible_user: ansible
+      ansible_ssh_private_key_file: ~/.ssh/id_ed25519
+    k3s_worker:
+      ansible_host: 192.168.1.112
+      ansible_user: ansible
+      ansible_ssh_private_key_file: ~/.ssh/id_ed25519
+    utility-vm:
+      ansible_host: 192.168.1.113
+      ansible_user: ansible
+      ansible_ssh_private_key_file: ~/.ssh/id_ed25519
+  children:
+    kubernetes:
+      hosts:
+        k3s_master:
+        k3s_worker:

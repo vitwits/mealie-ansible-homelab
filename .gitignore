@@ -1,0 +1,32 @@
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+
+# Ansible temporary files
+*.retry
+*.log
+*.out
+
+# Ansible Vault files
+*.vault
+
+# Local inventory files
+inventory/hosts.ini
+inventory/hosts.yml
+inventory/host_vars/*
+inventory/group_vars/*
+
+# Ignore any private keys accidentally added
+*.pem
+*.key
+
+# Virtual environments
+venv/
+.env/
+.envrc
+
+# OS temporary files
+.DS_Store
+*.swp
+*~

@@ -1,0 +1,5 @@
+---
+- hosts: utility-vm
+  become: yes
+  roles:
+    - nfs_server
