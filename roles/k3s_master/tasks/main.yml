@@ -1,5 +1,9 @@
 - name: Install K3s server
-  shell: curl -sfL https://get.k3s.io | sh -
+  shell: >
+    curl -sfL https://get.k3s.io |
+    INSTALL_K3S_EXEC="--node-ip={{ ansible_host }}
+    --node-external-ip={{ ansible_host }}
+    --advertise-address={{ ansible_host }}" sh -
   args:
     creates: /usr/local/bin/k3s
   become: yes

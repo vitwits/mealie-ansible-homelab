@@ -13,8 +13,11 @@
   run_once: true
 
 - name: Install K3s agent
-  shell: |
-    curl -sfL https://get.k3s.io | K3S_URL=https://{{ master_ip }}:6443 K3S_TOKEN={{ master_token }} sh -
+  shell: >
+    curl -sfL https://get.k3s.io |
+    K3S_URL=https://{{ master_ip }}:6443
+    K3S_TOKEN={{ master_token }}
+    INSTALL_K3S_EXEC="--node-ip={{ ansible_host }} --node-external-ip={{ ansible_host }}" sh -
   args:
     creates: /usr/local/bin/k3s
   become: yes
